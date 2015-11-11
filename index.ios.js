@@ -7,26 +7,21 @@ var {
     AppRegistry,
     StyleSheet,
     View,
+    Text,
     } = React;
 
 var ThingsDone = React.createClass({
-    getInitialState: function() {
-        return {
-            page: 1
-        };
-    },
     render: function () {
+        var content = new Array(7).fill().map((x, i) => "Tab: " + (i+1));
+        var tabs = content.map(x => (<View><Text>{x}</Text></View>));
+
         return (
             <View style={styles.container}>
-                <Button onPress={this.onNextPage}>
-                    Press to Fling it!
-                </Button>
-                <AnimatedTabs page={this.state.page}></AnimatedTabs>
+                <AnimatedTabs>
+                    {tabs}
+                </AnimatedTabs>
             </View>
         );
-    },
-    onNextPage: function() {
-        this.setState({page: ++this.state.page});
     }
 });
 

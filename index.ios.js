@@ -1,8 +1,8 @@
 'use strict';
 
 var React = require('react-native');
-var Button = require('./Button');
-var AnimatedTabs = require('./AnimatedTabs');
+var Button = require('./components/Button.js');
+var AnimatedTabs = require('./components/animated-tabs/AnimatedTabs.js');
 var {
     AppRegistry,
     StyleSheet,

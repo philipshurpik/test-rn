@@ -6,7 +6,7 @@ var AnimatedTabsService = require('./AnimatedTabs.service.js');
 var styles = require('./AnimatedTabs.styles.js');
 
 const deviceWidth = require('Dimensions').get('window').width;
-const SWIPE_THRESHOLD = deviceWidth / 2;
+const SWIPE_THRESHOLD = deviceWidth / 3;
 
 class AnimatedTabs extends Component {
     constructor(props) {
@@ -27,7 +27,12 @@ class AnimatedTabs extends Component {
     }
 
     componentWillReceiveProps (newProps) {
+        if (this.state.silent) {
+            return;
+        }
+
         if (newProps.selectedIndex !== this.state.current) {
+            this.state.silent = true;
             this._goToPanel(newProps.selectedIndex);
         }
     }
@@ -46,12 +51,12 @@ class AnimatedTabs extends Component {
                 view.state.pan.flattenOffset();
 
                 if (Math.abs(view.state.pan.x._value) > SWIPE_THRESHOLD) {
-                    let isNextPanel = view.state.pan.x._value > 0;
-                    view._animateToPanel(isNextPanel);
+                    let isLeftDirection = view.state.pan.x._value > 0;
+                    view._animateToPanel(isLeftDirection);
                 } else {
                     Animated.spring(view.state.pan, {
                         toValue: {x: 0, y: 0},
-                        friction: 4
+                        tension: 10
                     }).start()
                 }
             }
@@ -73,19 +78,19 @@ class AnimatedTabs extends Component {
     }
 
     _goToPanel(newIndex) {
-        var isNextPanel = newIndex < this.state.current;
+        var isLeftDirection = newIndex < this.state.current;
         var indexes = AnimatedTabsService.forceMoveToIndex(newIndex);
 
         this.setState(indexes);
-        this._animateToPanel(isNextPanel);
+        this._animateToPanel(isLeftDirection);
     }
 
-    _animateToPanel(isNextPanel) {
-        let nextX = isNextPanel ? deviceWidth : -deviceWidth;
+    _animateToPanel(isLeftDirection) {
+        let nextX = isLeftDirection ? deviceWidth : -deviceWidth;
 
         Animated.spring(this.state.pan, {
             toValue: {x: nextX, y: 0},
-            deceleration: 0.98
+            tension: 10
         }).start(this._resetState.bind(this, nextX));
     }
 
@@ -94,6 +99,7 @@ class AnimatedTabs extends Component {
 
         this.state.pan.setValue({x: 0, y: 0});
         this.setState(indexes);
+        this.state.silent = false;
     }
 
     _getPanel(panelContent, panelStyles) {

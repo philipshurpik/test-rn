@@ -12,6 +12,8 @@ const ANIMATED_CONFIG = {
     tension: 25,
     friction: 6
 };
+const SIDE_OPACITY = 0.5;
+const SIDE_SCALE = 0.8;
 
 class AnimatedTabs extends Component {
     constructor(props) {
@@ -106,30 +108,25 @@ class AnimatedTabs extends Component {
         this.state.silent = false;
     }
 
-    _getPanel(panelContent, panelStyles) {
+    _getSidePanel(panelContent) {
+        return this._getPanel(panelContent, [1, SIDE_OPACITY, 1], [1, SIDE_SCALE, 1]);
+    }
+
+    _getMainPanel(panelContent) {
+        return this._getPanel(panelContent, [SIDE_OPACITY, 1, SIDE_OPACITY], [SIDE_SCALE, 1, SIDE_SCALE]);
+    }
+
+    _getPanel(panelContent, opacityRange, scaleRange) {
+        let x = this.state.pan.x;
+        let opacity = x.interpolate({inputRange: [-deviceWidth, 0, deviceWidth], outputRange: opacityRange});
+        let scale = x.interpolate({inputRange: [-deviceWidth, 0, deviceWidth], outputRange: scaleRange});
+        let panelStyles = {transform: [{translateX: x}, {scale}], opacity};
+
         return (
             <Animated.View style={[styles.card, panelStyles]} {...this._panResponder.panHandlers}>
                 {panelContent}
             </Animated.View>
         );
-    }
-
-    _getSidePanel(panelContent) {
-        let x = this.state.pan.x;
-        let opacity = x.interpolate({inputRange: [-deviceWidth, 0, deviceWidth], outputRange: [1, 0.5, 1]});
-        let scale = x.interpolate({inputRange: [-deviceWidth, 0, deviceWidth], outputRange: [1, 0.8, 1]});
-        let animatedCardStyles = {transform: [{translateX: x}, {scale}], opacity};
-
-        return this._getPanel(panelContent, animatedCardStyles);
-    }
-
-    _getMainPanel(panelContent) {
-        let x = this.state.pan.x;
-        let opacity = x.interpolate({inputRange: [-deviceWidth, 0, deviceWidth], outputRange: [0.5, 1, 0.5]});
-        let scale = x.interpolate({inputRange: [-deviceWidth, 0, deviceWidth], outputRange: [0.8, 1, 0.8]});
-        let animatedCardStyles = {transform: [{translateX: x}, {scale}], opacity};
-
-        return this._getPanel(panelContent, animatedCardStyles);
     }
 }
 

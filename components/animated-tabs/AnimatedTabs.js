@@ -6,7 +6,12 @@ var AnimatedTabsService = require('./AnimatedTabs.service.js');
 var styles = require('./AnimatedTabs.styles.js');
 
 const deviceWidth = require('Dimensions').get('window').width;
+const MAX_ANIMATION_TIME = 700;
 const SWIPE_THRESHOLD = deviceWidth / 3;
+const ANIMATED_CONFIG = {
+    tension: 25,
+    friction: 6
+};
 
 class AnimatedTabs extends Component {
     constructor(props) {
@@ -22,7 +27,8 @@ class AnimatedTabs extends Component {
             pan: new Animated.ValueXY(),
             previous: indexes.previous,
             current: indexes.current,
-            next: indexes.next
+            next: indexes.next,
+            animatedConfig: this.props.animatedConfig || ANIMATED_CONFIG
         };
     }
 
@@ -54,10 +60,8 @@ class AnimatedTabs extends Component {
                     let isLeftDirection = view.state.pan.x._value > 0;
                     view._animateToPanel(isLeftDirection);
                 } else {
-                    Animated.spring(view.state.pan, {
-                        toValue: {x: 0, y: 0},
-                        tension: 10
-                    }).start()
+                    view.state.animatedConfig.toValue = {x: 0, y: 0};
+                    Animated.spring(view.state.pan, view.state.animatedConfig).start();
                 }
             }
         });
@@ -86,16 +90,16 @@ class AnimatedTabs extends Component {
     }
 
     _animateToPanel(isLeftDirection) {
-        let nextX = isLeftDirection ? deviceWidth : -deviceWidth;
+        this.state.nextX = isLeftDirection ? deviceWidth : -deviceWidth;
+        this.state.animatedConfig.toValue = {x: this.state.nextX, y: 0};
 
-        Animated.spring(this.state.pan, {
-            toValue: {x: nextX, y: 0},
-            tension: 10
-        }).start(this._resetState.bind(this, nextX));
+        Animated.spring(this.state.pan, this.state.animatedConfig).start(this._resetState.bind(this));
+
+        setTimeout(() => this.state.pan.stopAnimation(), MAX_ANIMATION_TIME);
     }
 
-    _resetState(nextX) {
-        var indexes = nextX < 0 ? AnimatedTabsService.moveNext() : AnimatedTabsService.movePrevious();
+    _resetState() {
+        var indexes = this.state.nextX < 0 ? AnimatedTabsService.moveNext() : AnimatedTabsService.movePrevious();
 
         this.state.pan.setValue({x: 0, y: 0});
         this.setState(indexes);

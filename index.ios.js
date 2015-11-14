@@ -35,7 +35,7 @@ class ThingsDone extends Component {
                     {buttons}
                 </View>
 
-                <AnimatedTabs selectedIndex={this.state.selectedIndex} isCarousel="true">
+                <AnimatedTabs selectedIndex={this.state.selectedIndex}>
                     {tabs}
                 </AnimatedTabs>
             </View>

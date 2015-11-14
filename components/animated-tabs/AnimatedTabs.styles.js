@@ -15,9 +15,11 @@ var styles = React.StyleSheet.create({
         backgroundColor: '#F5FCFF',
         flexDirection: 'row'
     },
-    card: {
+    panel: {
         width: deviceWidth,
-        height: deviceHeight / 2.5,
+        height: deviceHeight / 2.5
+    },
+    contentPanel: {
         padding: 15,
         borderColor: 'rgba(0,0,0,0.1)',
         shadowColor: '#000',

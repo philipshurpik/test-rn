@@ -40,6 +40,15 @@ class AnimatedTabsService {
         }
         return indexes;
     }
+
+    static canMove(isLeftDirection) {
+        if (!isCarousel) {
+            if ((isLeftDirection && indexes.previous === null) || (!isLeftDirection && indexes.next === null)) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
 
 function calculateSideIndexes(current) {

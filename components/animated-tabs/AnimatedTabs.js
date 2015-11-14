@@ -57,13 +57,13 @@ class AnimatedTabs extends Component {
 
             onPanResponderRelease: () => {
                 view.state.pan.flattenOffset();
+                let isLeftDirection = view.state.pan.x._value > 0;
+                let canMove = AnimatedTabsService.canMove(isLeftDirection);
 
-                if (Math.abs(view.state.pan.x._value) > SWIPE_THRESHOLD) {
-                    let isLeftDirection = view.state.pan.x._value > 0;
+                if (Math.abs(view.state.pan.x._value) > SWIPE_THRESHOLD && canMove) {
                     view._animateToPanel(isLeftDirection);
                 } else {
-                    view.state.animatedConfig.toValue = {x: 0, y: 0};
-                    Animated.spring(view.state.pan, view.state.animatedConfig).start();
+                    view._cancelAnimation();
                 }
             }
         });
@@ -108,6 +108,11 @@ class AnimatedTabs extends Component {
         this.state.silent = false;
     }
 
+    _cancelAnimation() {
+        this.state.animatedConfig.toValue = {x: 0, y: 0};
+        Animated.spring(this.state.pan, this.state.animatedConfig).start();
+    }
+
     _getSidePanel(panelContent) {
         return this._getPanel(panelContent, [1, SIDE_OPACITY, 1], [1, SIDE_SCALE, 1]);
     }
@@ -120,10 +125,11 @@ class AnimatedTabs extends Component {
         let x = this.state.pan.x;
         let opacity = x.interpolate({inputRange: [-deviceWidth, 0, deviceWidth], outputRange: opacityRange});
         let scale = x.interpolate({inputRange: [-deviceWidth, 0, deviceWidth], outputRange: scaleRange});
-        let panelStyles = {transform: [{translateX: x}, {scale}], opacity};
+        let animateStyles = {transform: [{translateX: x}, {scale}], opacity};
+        let contentStyles = panelContent ? styles.contentPanel : null;
 
         return (
-            <Animated.View style={[styles.card, panelStyles]} {...this._panResponder.panHandlers}>
+            <Animated.View style={[styles.panel, contentStyles, animateStyles]} {...this._panResponder.panHandlers}>
                 {panelContent}
             </Animated.View>
         );

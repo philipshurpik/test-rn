@@ -20,9 +20,7 @@ class AnimatedTabs extends Component {
         super(props);
 
         var panels = this.props.children;
-        var startIndex = this.props.startIndex || 0;
-        var isCarousel = this.props.isCarousel || false;
-        var indexes = AnimatedTabsService.init(panels, startIndex, isCarousel);
+        var indexes = AnimatedTabsService.init(panels, props);
 
         this.state = {
             panels: panels,
@@ -135,5 +133,16 @@ class AnimatedTabs extends Component {
         );
     }
 }
+
+AnimatedTabs.propTypes = {
+    selectedIndex: React.PropTypes.number,
+    carousel: React.PropTypes.bool,
+    tabStyle: React.PropTypes.oneOf(['headerTabs', 'footerTabs', 'headerLabel'])
+};
+
+AnimatedTabs.defaultProps = {
+    selectedIndex: 0,
+    carousel: false
+};
 
 module.exports = AnimatedTabs;

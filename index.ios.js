@@ -28,6 +28,9 @@ class ThingsDone extends Component {
             (<Button onPress={this.handleClick.bind(this, i)}>{i+1}</Button>)
         );
 
+        // tabStyle = { headerTabs, footerTabs, headerLabel }
+        // any element has own tabLabel and (or) tabIcon
+
         return (
             <View style={styles.mainView}>
 

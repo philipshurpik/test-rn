@@ -1,7 +1,7 @@
 'use strict';
 
 var panels;
-var isCarousel;
+var carousel;
 var indexes = {
     previous: null,
     current: null,
@@ -10,10 +10,10 @@ var indexes = {
 
 class AnimatedTabsService {
 
-    static init(_panels, _startIndex, _isCarousel) {
+    static init(_panels, props) {
         panels = _panels;
-        isCarousel = _isCarousel || false;
-        indexes.current = _startIndex || 0;
+        carousel = props.carousel;
+        indexes.current = props.selectedIndex;
 
         calculateSideIndexes(indexes.current);
         return indexes;
@@ -42,7 +42,7 @@ class AnimatedTabsService {
     }
 
     static canMove(isLeftDirection) {
-        if (!isCarousel) {
+        if (!carousel) {
             if ((isLeftDirection && indexes.previous === null) || (!isLeftDirection && indexes.next === null)) {
                 return false;
             }
@@ -52,13 +52,13 @@ class AnimatedTabsService {
 }
 
 function calculateSideIndexes(current) {
-    if (!isCarousel) {
-        indexes.previous = current > 0 ? current - 1 : null;
-        indexes.next =  current < panels.length - 1 ? current + 1 : null;
-    }
-    else {
+    if (carousel) {
         indexes.previous = current > 0 ? current - 1 : panels.length - 1;
         indexes.next =   current < panels.length - 1 ? current + 1 : 0;
+    }
+    else {
+        indexes.previous = current > 0 ? current - 1 : null;
+        indexes.next =  current < panels.length - 1 ? current + 1 : null;
     }
 }
 

@@ -15,6 +15,7 @@ class AnimatedTabsService {
         carousel = props.carousel;
         indexes.current = props.selectedIndex;
 
+        validate(_panels, props);
         calculateSideIndexes(indexes.current);
         return indexes;
     }
@@ -59,6 +60,14 @@ function calculateSideIndexes(current) {
     else {
         indexes.previous = current > 0 ? current - 1 : null;
         indexes.next =  current < panels.length - 1 ? current + 1 : null;
+    }
+}
+
+function validate(_panels, props) {
+    if (props.tabLabels && props.tabLabels.length) {
+        if (props.tabLabels.length !== _panels.length) {
+            throw new Error('tabLabels should be set for each tab');
+        }
     }
 }
 

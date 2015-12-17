@@ -7,9 +7,9 @@ const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
 
 var styles = React.StyleSheet.create({
-    container: {
+    panels: {
         flex: 1,
-        top: 44,
+        top: 0,
         justifyContent: 'center',
         alignItems: 'flex-start',
         backgroundColor: '#F5FCFF',
@@ -17,7 +17,7 @@ var styles = React.StyleSheet.create({
     },
     panel: {
         width: deviceWidth,
-        height: deviceHeight / 2.5
+        height: deviceHeight - 88
     },
     contentPanel: {
         padding: 15,
@@ -26,6 +26,21 @@ var styles = React.StyleSheet.create({
         shadowOffset: {height: 5},
         shadowOpacity: 0.7,
         shadowRadius: 10
+    },
+    headerTab: {
+        flex: 1,
+        flexDirection: 'row',
+        top: 0,
+        left: deviceWidth,
+        height: 44,
+        width: deviceWidth,
+        backgroundColor: 'white'
+    },
+    headerTabLabel: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 10
     }
 });
 

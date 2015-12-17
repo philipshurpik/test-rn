@@ -22,23 +22,11 @@ class ThingsDone extends Component {
 
     render() {
         var content = new Array(7).fill().map((x, i) => "Tab: " + (i+1));
-        var tabs = content.map(x => (<View><Text>{x}</Text></View>));
-
-        var buttons = new Array(7).fill().map((x, i) =>
-            (<Button onPress={this.handleClick.bind(this, i)}>{i+1}</Button>)
-        );
-
-        // tabStyle = { headerTabs, footerTabs, headerLabel }
-        // any element has own tabLabel and (or) tabIcon
+        var tabs = content.map((x, i) => (<View key={i}><Text>{x}</Text></View>));
 
         return (
             <View style={styles.mainView}>
-
-                <View style={styles.buttons}>
-                    {buttons}
-                </View>
-
-                <AnimatedTabs selectedIndex={this.state.selectedIndex}>
+                <AnimatedTabs selectedIndex={this.state.selectedIndex} tabLabels={content}>
                     {tabs}
                 </AnimatedTabs>
             </View>
@@ -56,10 +44,6 @@ var styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#F5FCFF'
-    },
-    buttons: {
-        flexDirection: 'row',
-        marginTop: 20
     }
 });
 

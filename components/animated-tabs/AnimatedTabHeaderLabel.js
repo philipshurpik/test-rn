@@ -3,7 +3,7 @@
 var React = require('react-native');
 var { View, TouchableOpacity, Component, Text } = React;
 
-class AnimatedHeaderTab extends Component {
+class AnimatedTabHeaderLabel extends Component {
     constructor(props) {
         super(props);
 
@@ -37,7 +37,7 @@ class AnimatedHeaderTab extends Component {
     }
 }
 
-AnimatedHeaderTab.propTypes = {
+AnimatedTabHeaderLabel.propTypes = {
     //style: React.PropTypes.object.isRequired,
     tabLabel: React.PropTypes.string.isRequired,
     index: React.PropTypes.number.isRequired,
@@ -45,4 +45,4 @@ AnimatedHeaderTab.propTypes = {
     onPress: React.PropTypes.func
 };
 
-module.exports = AnimatedHeaderTab;
+module.exports = AnimatedTabHeaderLabel;

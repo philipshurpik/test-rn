@@ -2,8 +2,8 @@
 
 var React = require('react-native');
 var { View, Animated, Component, PanResponder, } = React;
-var AnimatedHeaderTab = require('./AnimatedHeaderTab.js');
 var AnimatedTabPanel = require('./AnimatedTabPanel.js');
+var AnimatedTabHeader = require('./AnimatedTabHeader.js');
 var AnimatedTabsService = require('./AnimatedTabs.service.js');
 var styles = require('./AnimatedTabs.styles.js');
 
@@ -69,11 +69,13 @@ class AnimatedTabs extends Component {
 
     render() {
         var x = this.state.pan.x;
-        var header = this._getHeader();
 
         return (
             <View>
-                {header}
+                <AnimatedTabHeader onLabelPress={this._goToPanel.bind(this)} currentIndex={this.state.current}>
+                    {this.props.tabLabels}
+                </AnimatedTabHeader>
+
                 <View style={styles.panels}>
                     <AnimatedTabPanel key={1} x={x} isMain={false} panHandlers={this._panResponder.panHandlers}>
                         {this.state.panels[this.state.previous]}
@@ -118,53 +120,6 @@ class AnimatedTabs extends Component {
         this.state.animatedConfig.toValue = {x: 0, y: 0};
         Animated.spring(this.state.pan, this.state.animatedConfig).start();
     }
-
-    _getHeader() {
-        if (this.props.tabLabels) {
-            var tabs = this.props.tabLabels.map((tabLabel, i) => {
-                return (
-                    <AnimatedHeaderTab
-                        style={styles.headerTabLabel}
-                        tabLabel={tabLabel}
-                        index={i}
-                        key={i}
-                        currentIndex={this.state.current}
-                        onPress={this._goToPanel.bind(this)}>
-                    </AnimatedHeaderTab>
-                );
-            });
-
-            return (
-                <View style={styles.headerTab}>{tabs}</View>
-            );
-        }
-    }
-
-    /*
-     _getSidePanel(panelContent) {
-     return this._getPanel(panelContent, [1, SIDE_OPACITY, 1], [1, SIDE_SCALE, 1], [0, 0.7, 0]);
-     }
-
-     _getMainPanel(panelContent) {
-     return this._getPanel(panelContent, [SIDE_OPACITY, 1, SIDE_OPACITY], [SIDE_SCALE, 1, SIDE_SCALE], [0.7, 0, 0.7]);
-     }
-
-     _getPanel(panelContent, opacityRange, scaleRange, shadowRange) {
-     let x = this.state.pan.x;
-     let opacity = x.interpolate({inputRange: [-deviceWidth, 0, deviceWidth], outputRange: opacityRange});
-     let shadowOpacity = x.interpolate({inputRange: [-deviceWidth, 0, deviceWidth], outputRange: shadowRange});
-     let scale = x.interpolate({inputRange: [-deviceWidth, 0, deviceWidth], outputRange: scaleRange});
-     let animateStyles = {transform: [{translateX: x}, {scale}], opacity, shadowOpacity};
-     let contentStyles = panelContent ? styles.contentPanel : null;
-
-     return (
-     <Animated.View
-     style={[styles.panel, contentStyles, animateStyles]}
-     {...this._panResponder.panHandlers}>
-     {panelContent}
-     </Animated.View>
-     );
-     }*/
 }
 
 AnimatedTabs.propTypes = {

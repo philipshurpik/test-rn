@@ -32,12 +32,12 @@ class AnimatedTabs extends Component {
     }
 
     componentWillReceiveProps(newProps) {
-        if (this.state.silent) {
+        if (this.state.transitionBlocked) {
             return;
         }
 
         if (newProps.selectedIndex !== this.state.current) {
-            this.state.silent = true;
+            this.state.transitionBlocked = true;
             this._goToPanel(newProps.selectedIndex);
         }
     }
@@ -112,7 +112,7 @@ class AnimatedTabs extends Component {
 
         this.state.pan.setValue({x: 0, y: 0});
         this.setState(indexes);
-        this.state.silent = false;
+        this.state.transitionBlocked = false;
     }
 
     _cancelAnimation() {

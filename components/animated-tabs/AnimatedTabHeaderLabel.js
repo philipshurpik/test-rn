@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require('react-native');
-var { View, TouchableOpacity, Component, Text, StyleSheet } = React;
+var { TouchableOpacity, Component, Text, StyleSheet } = React;
 
 class AnimatedTabHeaderLabel extends Component {
     constructor(props) {
@@ -13,22 +13,27 @@ class AnimatedTabHeaderLabel extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.state.activatedIndex >= 0) {
+        if (nextProps.currentIndex !== this.props.currentIndex) {
             this.setState({activatedIndex: null});
         }
     }
 
     render() {
-        var isActive = this.props.currentIndex === this.props.index || this.state.activatedIndex === this.props.index;
-        var color = isActive ? 'lightBlue' : 'orange';
-
         return (
-            <TouchableOpacity style={styles.tabHeaderLabel} key={this.props.index} onPress={this._onPress.bind(this)}>
-                <View>
-                    <Text style={{color}}>{this.props.tabLabel}</Text>
-                </View>
+            <TouchableOpacity style={styles.tabHeaderLabel} onPress={this._onPress.bind(this)} key={this.props.index}>
+                <Text style={[this.getElementStyle()]}>{this.props.tabLabel}</Text>
             </TouchableOpacity>
         );
+    }
+
+    getElementStyle() {
+        if (this.state.activatedIndex === this.props.index) {
+            return styles.justSelected;
+        }
+        if (this.props.currentIndex === this.props.index) {
+            return styles.selected;
+        }
+        return styles.notSelected;
     }
 
     _onPress() {
@@ -44,6 +49,16 @@ AnimatedTabHeaderLabel.propTypes = {
 };
 
 const styles = StyleSheet.create({
+    notSelected: {
+        color: 'lightBlue'
+    },
+    justSelected: {
+        color: 'orange',
+        opacity: 0.5
+    },
+    selected: {
+        color: 'orange'
+    },
     tabHeaderLabel: {
         flex: 1,
         alignItems: 'center',

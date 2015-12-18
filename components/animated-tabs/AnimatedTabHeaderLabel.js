@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require('react-native');
-var { View, TouchableOpacity, Component, Text } = React;
+var { View, TouchableOpacity, Component, Text, StyleSheet } = React;
 
 class AnimatedTabHeaderLabel extends Component {
     constructor(props) {
@@ -23,7 +23,7 @@ class AnimatedTabHeaderLabel extends Component {
         var color = isActive ? 'lightBlue' : 'orange';
 
         return (
-            <TouchableOpacity style={this.props.style} key={this.props.index} onPress={this._onPress.bind(this)}>
+            <TouchableOpacity style={styles.tabHeaderLabel} key={this.props.index} onPress={this._onPress.bind(this)}>
                 <View>
                     <Text style={{color}}>{this.props.tabLabel}</Text>
                 </View>
@@ -38,11 +38,18 @@ class AnimatedTabHeaderLabel extends Component {
 }
 
 AnimatedTabHeaderLabel.propTypes = {
-    //style: React.PropTypes.object.isRequired,
     tabLabel: React.PropTypes.string.isRequired,
     index: React.PropTypes.number.isRequired,
-    //currentIndex: React.PropTypes.bool.number,
-    onPress: React.PropTypes.func
+    onPress: React.PropTypes.func.isRequired
 };
+
+const styles = StyleSheet.create({
+    tabHeaderLabel: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 10
+    }
+});
 
 module.exports = AnimatedTabHeaderLabel;

@@ -1,10 +1,12 @@
 'use strict';
 
 var React = require('react-native');
-var { Component, Animated } = React;
-var styles = require('./AnimatedTabs.styles.js');
+var { Component, Animated, StyleSheet } = React;
 
-const deviceWidth = require('Dimensions').get('window').width;
+var Dimensions = require('Dimensions');
+const deviceWidth = Dimensions.get('window').width;
+const deviceHeight = Dimensions.get('window').height;
+
 const SIDE_OPACITY = 0.5;
 const SIDE_SCALE = 0.8;
 
@@ -41,5 +43,26 @@ class AnimatedTabPanel extends Component {
     }
 }
 
+AnimatedTabPanel.propTypes = {
+    children: React.PropTypes.object,
+    x: React.PropTypes.object.isRequired,
+    isMain: React.PropTypes.bool.isRequired,
+    panHandlers: React.PropTypes.object.isRequired
+};
+
+const styles = StyleSheet.create({
+    panel: {
+        width: deviceWidth,
+        height: deviceHeight - 88
+    },
+    contentPanel: {
+        padding: 15,
+        borderColor: 'rgba(0,0,0,0.1)',
+        shadowColor: '#000',
+        shadowOffset: {height: 5},
+        shadowOpacity: 0.7,
+        shadowRadius: 10
+    }
+});
 
 module.exports = AnimatedTabPanel;

@@ -1,11 +1,10 @@
 'use strict';
 
 var React = require('react-native');
-var { View, Animated, Component, PanResponder, } = React;
+var { View, Animated, Component, PanResponder, StyleSheet } = React;
 var AnimatedTabPanel = require('./AnimatedTabPanel.js');
 var AnimatedTabHeader = require('./AnimatedTabHeader.js');
 var AnimatedTabsService = require('./AnimatedTabs.service.js');
-var styles = require('./AnimatedTabs.styles.js');
 
 const deviceWidth = require('Dimensions').get('window').width;
 const MAX_ANIMATION_TIME = 700;
@@ -133,5 +132,16 @@ AnimatedTabs.defaultProps = {
     selectedIndex: 0,
     carousel: false
 };
+
+const styles = StyleSheet.create({
+    panels: {
+        flex: 1,
+        top: 0,
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+        backgroundColor: '#F5FCFF',
+        flexDirection: 'row'
+    }
+});
 
 module.exports = AnimatedTabs;

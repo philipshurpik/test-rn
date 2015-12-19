@@ -12,14 +12,6 @@ var {
     } = React;
 
 class ThingsDone extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            selectedIndex: 0
-        }
-    }
-
     render() {
         var content = new Array(7).fill().map((x, i) => "Tab: " + (i+1));
         var tabs = content.map((x, i) => (<View key={i}><Text>{x}</Text></View>));
@@ -31,10 +23,6 @@ class ThingsDone extends Component {
                 </AnimatedTabs>
             </View>
         );
-    }
-
-    handleClick(i) {
-        this.setState({ selectedIndex: i});
     }
 }
 

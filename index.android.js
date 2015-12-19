@@ -1,52 +1,38 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
 'use strict';
 
 var React = require('react-native');
+var Button = require('./components/Button.js');
+var AnimatedTabs = require('./components/animated-tabs/AnimatedTabs.js');
 var {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
-} = React;
+    AppRegistry,
+    StyleSheet,
+    Component,
+    View,
+    Text,
+    } = React;
 
-var ThingsDone = React.createClass({
-  render: function() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Shake or press menu button for dev menu
-        </Text>
-      </View>
-    );
-  }
-});
+class ThingsDone extends Component {
+    render() {
+        var content = new Array(7).fill().map((x, i) => "Tab: " + (i+1));
+        var tabs = content.map((x, i) => (<View key={i}><Text>{x}</Text></View>));
+
+        return (
+            <View style={styles.mainView}>
+                <AnimatedTabs selectedIndex={this.state.selectedIndex} tabLabels={content}>
+                    {tabs}
+                </AnimatedTabs>
+            </View>
+        );
+    }
+}
 
 var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+    mainView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F5FCFF'
+    }
 });
 
 AppRegistry.registerComponent('ThingsDone', () => ThingsDone);

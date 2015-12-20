@@ -61,15 +61,10 @@ const styles = StyleSheet.create({
         width: deviceWidth
     },
     contentPanel: {
-        backgroundColor: '#FFFFF9',
-        padding: 15,
-        borderColor: 'rgba(0,0,0,0.1)',
-
         /* Only iOS */
         shadowColor: '#000',
         shadowOffset: {height: 5},
         shadowRadius: 10
-
         /* Android uses elevation property */
     }
 });

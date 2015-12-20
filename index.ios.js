@@ -3,6 +3,7 @@
 var React = require('react-native');
 var AnimatedTabs = require('./components/animated-tabs/AnimatedTabs.js');
 var TasksPanel = require('./components/tasks-panel/TasksPanel.js');
+var TasksHeader = require('./components/tasks-panel/TasksHeader.js');
 var { AppRegistry, StyleSheet, Component, View, Text } = React;
 var Dimensions = require('Dimensions');
 const deviceHeight = Dimensions.get('window').height;
@@ -16,10 +17,13 @@ class ThingsDone extends Component {
 
         return (
             <View style={styles.animatedView}>
-                <AnimatedTabs tabBarLabels={content}>
+                <AnimatedTabs tabBarLabels={content} tabBarStyle='headerTitle'>
                     {tabs}
                 </AnimatedTabs>
-                <TasksPanel style={styles.tabContent} content='very big content'></TasksPanel>
+                <TasksHeader>
+                </TasksHeader>
+                <TasksPanel style={styles.tabContent} content='very big content'>
+                </TasksPanel>
             </View>
         );
     }

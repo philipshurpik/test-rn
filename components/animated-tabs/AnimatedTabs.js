@@ -4,6 +4,7 @@ var React = require('react-native');
 var { View, Animated, Component, PanResponder, StyleSheet } = React;
 var AnimatedTabPanel = require('./AnimatedTabPanel.js');
 var AnimatedTabBar = require('./AnimatedTabBar.js');
+var AnimatedTabTitle = require('./AnimatedTabTitle.js');
 var AnimatedTabsService = require('./AnimatedTabs.service.js');
 
 const deviceWidth = require('Dimensions').get('window').width;
@@ -74,12 +75,20 @@ class AnimatedTabs extends Component {
                 {this.props.tabBarLabels}
             </AnimatedTabBar>
         );
+        var tabTitle = (
+            <AnimatedTabTitle onLabelPress={this._goToPanel.bind(this)} currentIndex={this.state.current}>
+                {this.props.tabBarLabels}
+            </AnimatedTabTitle>
+        );
+
         var header = this.props.tabBarStyle === 'header' ? tabBar : null;
         var footer = this.props.tabBarStyle === 'footer' ? tabBar : null;
+        var headerTitle = this.props.tabBarStyle === 'headerTitle' ? tabTitle : null;
 
         return (
             <View>
                 {header}
+                {headerTitle}
 
                 <View style={styles.panels}>
                     <AnimatedTabPanel key={1} x={x} isMain={false} panHandlers={this._panResponder.panHandlers}>
@@ -132,7 +141,7 @@ class AnimatedTabs extends Component {
 AnimatedTabs.propTypes = {
     selectedIndex: React.PropTypes.number,
     carousel: React.PropTypes.bool,
-    tabBarStyle: React.PropTypes.oneOf(['header', 'footer']),
+    tabBarStyle: React.PropTypes.oneOf(['header', 'footer', 'headerTitle']),
     tabBarLabels: React.PropTypes.arrayOf(React.PropTypes.string)
 };
 

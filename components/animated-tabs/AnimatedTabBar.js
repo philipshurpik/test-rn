@@ -2,21 +2,21 @@
 
 var React = require('react-native');
 var { Component, View, StyleSheet } = React;
-var AnimatedTabHeaderLabel = require('./AnimatedTabHeaderLabel.js');
+var AnimatedTabBarLabel = require('./AnimatedTabBarLabel.js');
 var Dimensions = require('Dimensions');
 const deviceWidth = Dimensions.get('window').width;
 
-class AnimatedTabHeader extends Component {
+class AnimatedTabBar extends Component {
     render() {
         var tabs = this.props.children.map((tabLabel, i) => {
             return (
-                <AnimatedTabHeaderLabel
+                <AnimatedTabBarLabel
                     tabLabel={tabLabel}
                     index={i}
                     key={i}
                     currentIndex={this.props.currentIndex}
                     onPress={this.props.onLabelPress}>
-                </AnimatedTabHeaderLabel>
+                </AnimatedTabBarLabel>
             );
         });
 
@@ -24,7 +24,7 @@ class AnimatedTabHeader extends Component {
     }
 }
 
-AnimatedTabHeader.propTypes = {
+AnimatedTabBar.propTypes = {
     children: React.PropTypes.arrayOf(React.PropTypes.string),
     currentIndex: React.PropTypes.number.isRequired,
     onLabelPress: React.PropTypes.func.isRequired
@@ -38,9 +38,9 @@ const styles = StyleSheet.create({
         left: deviceWidth,
         height: 44,
         width: deviceWidth,
-        backgroundColor: 'white'
+        backgroundColor: '#92E4BE'
     }
 });
 
 
-module.exports = AnimatedTabHeader;
+module.exports = AnimatedTabBar;

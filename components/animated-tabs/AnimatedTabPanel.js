@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
         width: deviceWidth
     },
     contentPanel: {
-        backgroundColor: '#C1F7DD',
+        backgroundColor: '#FFFFF9',
         padding: 15,
         borderColor: 'rgba(0,0,0,0.1)',
 

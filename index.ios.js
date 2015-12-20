@@ -1,35 +1,17 @@
 'use strict';
 
 var React = require('react-native');
-var AnimatedTabs = require('./components/animated-tabs/AnimatedTabs.js');
-var TasksPanel = require('./components/tasks-panel/TasksPanel.js');
-var TasksHeader = require('./components/tasks-panel/TasksHeader.js');
-var { AppRegistry, StyleSheet, Component, View, Text } = React;
-var Dimensions = require('Dimensions');
-const deviceHeight = Dimensions.get('window').height;
+var TasksPage = require('./pages/TasksPage.js');
+var { AppRegistry, StyleSheet, Component, View } = React;
 
 class ThingsDone extends Component {
     render() {
-        var content = new Array(7).fill().map((x, i) => "Tab: " + (i + 1));
-        var tabs = content.map((x, i) => {
-            return (<TasksPanel key={i} style={styles.tabContent} content={"Content: " + x }></TasksPanel>);
-        });
-
         return (
-            <View style={styles.animatedView}>
-                <AnimatedTabs tabBarLabels={content} tabBarStyle='headerTitle'>
-                    {tabs}
-                </AnimatedTabs>
-                <TasksHeader>
-                </TasksHeader>
-                <TasksPanel style={styles.tabContent} content='very big content'>
-                </TasksPanel>
-            </View>
+            <TasksPage style={styles.animatedView}></TasksPage>
         );
     }
 }
 
-const HEADER_HEIGHT = 44;
 const VIEW_TOP = 22;
 
 var styles = StyleSheet.create({
@@ -38,9 +20,6 @@ var styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-start',
         alignItems: 'center'
-    },
-    tabContent: {
-        height: deviceHeight / 2 - HEADER_HEIGHT - VIEW_TOP
     }
 });
 

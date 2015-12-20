@@ -3,13 +3,17 @@
 var React = require('react-native');
 var {View, Component, Text, StyleSheet} = React;
 var Dimensions = require('Dimensions');
-const deviceHeight = Dimensions.get('window').height;
+const deviceWidth = Dimensions.get('window').width;
 
 class TasksPanel extends Component {
     render() {
+        var todos = this.props.items.map((item, i) => (
+            <Text key={i}>{item.text}</Text>
+        ));
+
         return (
             <View style={[this.props.style, styles.panel]}>
-                <Text>{this.props.content}</Text>
+                {todos}
             </View>
         );
     }
@@ -17,6 +21,7 @@ class TasksPanel extends Component {
 
 var styles = StyleSheet.create({
     panel: {
+        width: deviceWidth,
         backgroundColor: '#FFFFF9',
         padding: 15,
     }
